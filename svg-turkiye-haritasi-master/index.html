@@ -4,31 +4,99 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <title>Kargo Hesap</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic" rel="stylesheet" type="text/css">
     <!-- SVG Türkiye Haritası -->
     <link href="css/svg-turkiye-haritasi.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <style>
+
+      body {
+        font-size: 20px;
+      }
       .sonuclar ul li {
         display: grid;
         grid-template-columns: 20% 20% 20% 20% 20%;
         height: 55px;
       }
       .ilinadi {
-        position: absolute;
-        font-size: 70px !important;
-        padding: 5px 10px;
-        background-color: #1094F6;
-        color: #fff;
-        bottom: 20%;
-      }
+    position: absolute;
+    font-size: 70px !important;
+    padding: 5px 10px;
+    background-color: #1094F6;
+    color: #fff;
+    top: 20px;
+    right: 20px;
+}
+
+  .kapsayici  .col-lg-3 {
+    background-color: #eee;
+    padding: 10px;
+    padding-top: 40px;
+    border-radius: 10px;
+
+  }
+  .kapsayici span {
+    margin-bottom:10px;
+  }
+
+  .telif {
+    font-size: 14px;
+    margin-top: 50px;
+  }
+
+  .kapsayici {
+    margin-top: 30px;
+  }
+  div.kilogram {
+    margin-left: 12px;
+}
+[list="brow"] {
+    margin-left: 9px;
+}
+
+@media screen and (max-width: 600px) {
+  body {
+    font-size: 30px;
+  }
+  .kapsayici {
+    margin-top: 0px;
+}
+}
     </style>
   </head>
   <body>
     <div id="kargohesap">
-    <!-- SVG Türkiye Haritası | MIT Lisans | dnomak.com -->     
-    <div class="ilinadi">{{ secilen }}</div>
+
+      <div class="kapsayici">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3">
+              <ul>
+                <li style="list-style-type: none;">
+                  <input placeholder="Hedef şehir seçiniz" list="brow" v-model="secilen">
+                  <datalist id="brow">
+                    <option v-model="sehir" v-for="kargohesap in kargohesap">{{kargohesap.sehir}}</option>
+                  </datalist>  
+                </li>
+              </ul>
+              <div class="kilogram">
+                KG: <input type="number" v-model="kilogram">
+              </div>
+                <div style="transition: all 3s;">
+                  <ul>
+                    <li style="margin-left: -20px; display: grid;" v-for="kargohesap in kargohesap" v-if="kargohesap.sehir==secilen">
+                      <span>Desi: <b>{{ kargohesap.b2c }}</b></span>
+                      <span>KDV Oranı: <b>%{{ kargohesap.kdvoran }}</b></span>
+                      <span>Fiyat: <b style="background-color: #1094F6; color: #fff; padding: 5px 10px;">{{(kargohesap.b2c*kargohesap.kdvoran+kargohesap.b2c).toFixed(2)*kilogram}} ₺</b></span>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+            <div class="col-lg-9">
+              <!-- SVG Türkiye Haritası | MIT Lisans | dnomak.com -->     
         
     <div class="il-isimleri"></div>
     <div class="svg-turkiye-haritasi">
@@ -298,20 +366,12 @@
         </g>
       </svg>
     </div>
-    <select style="margin-left: 45%;" v-model="secilen">
-      <option v-for="kargohesap in kargohesap" >{{kargohesap.sehir}}</option>
-      </select>
-      <div class="sonuclar" style="transition: all 3s;">
-        <ul>
-          <li v-for="kargohesap in kargohesap" v-if="kargohesap.sehir==secilen">
-            <span style="color: #fff;">{{ kargohesap.sehir }}</span>
-            <div>KG: <input type="number" v-model="kargohesap.kg"></div>
-            <span>B2C: <b>{{ kargohesap.b2c }}</b></span>
-            <span>KDV Oranı: <b>%{{ kargohesap.kdvoran }}</b></span>
-            <span>Fiyat: <b style="background-color: #1094F6; color: #fff; padding: 5px 10px;">{{(kargohesap.b2c*kargohesap.kdvoran+kargohesap.b2c).toFixed(2)*kargohesap.kg}} ₺</b></span>
-          </li>
-        </ul>
+            </div>
+          </div>
+        </div>
       </div>
+    
+    
   
     <!-- SVG Türkiye Haritası -->
     <script src="js/svg-turkiye-haritasi.js"></script>
@@ -324,484 +384,484 @@
     data: {
         total: 0,
         secilen: "Adana",
-        kilogram: 0,
+        kilogram: '',
         kargohesap: [
         {
               sehir: 'Adana',
-              kg: 1, 
+              kg: 0, 
               b2c: 0.59,
               kdvoran: 0.18
           },
           {
               sehir: 'Adıyaman',
-              kg: 2, 
+              kg: 0, 
               b2c: 0.51,
               kdvoran: 0.18
           },
           {
               sehir: 'Afyon',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.77,
               kdvoran: 18/100
           },
           {
               sehir: 'Ağrı',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.07,
               kdvoran: 18/100
           },
           {
               sehir: 'Aksaray',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.87,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Amasya',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.78,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Ankara',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.87,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Antalya',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.86,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Ardahan',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.09,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Artvin',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.95,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Aydın',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.88,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Balıkesir',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.92,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Bartın',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Batman',
-              kg: 3, 
+              kg: 0, 
               b2c: 1,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Bayburt',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.02,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Bilecik',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.91,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Bingöl',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.91,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Bitlis',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.08,
               kdvoran: 18/100
           },                                                                                     
           {
               sehir: 'Bolu',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           },   {
               sehir: 'Burdur',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.86,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Bursa',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.91,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Çanakkale',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.96,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Çankırı',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.87,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Çorum',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.78,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Denizli',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.79,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Diyarbakır',
-              kg: 3, 
+              kg: 0, 
               b2c: 1,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Düzce',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Edirne',
-              kg: 3, 
+              kg: 0, 
               b2c: 1,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Elazığ',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.89,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Erzincan',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.09,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Erzurum',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.95,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Eskişehir',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Gaziantep',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.43,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Giresun',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.91,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Gümüşhane',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.98,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Hakkari',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.31,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Hatay',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Iğdır',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.09,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Isparta',
-              kg: 3, 
+              kg: 0, 
               b2c: 0,
               kdvoran: 18/100
           },                  
           {
               sehir: 'İstanbul-Anadolu',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.74,
               kdvoran: 18/100
           },                  
           {
               sehir: 'İstanbul-Avrupa',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.90,
               kdvoran: 18/100
           },                  
           {
               sehir: 'İzmir',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.88,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kahramanmaraş',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.43,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Karabük',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Karaman',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.79,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kars',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.07,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kastamonu',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.87,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kayseri',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.76,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kırıkkale',
-              kg: 3, 
+              kg: 0, 
               b2c: 1,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kırşehir',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.87,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kilis',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.43,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Kocaeli',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.79,
               kdvoran: 0
           },                  
           {
               sehir: 'Konya',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.79,
               kdvoran: 0
           },                  
           {
               sehir: 'Kütahya',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.77,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Malatya',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.91,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Manisa',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.88,
               kdvoran: 18/100
           },                  
           {
               sehir: 'Mardin',
-              kg: 3, 
+              kg: 0, 
               b2c: 1,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Mersin',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.71,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Muğla',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.94,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Muş',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.02,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Nevşehir',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.87,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Niğde',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.87,
               kdvoran: 18/100
           },                                                                                        
           {
               sehir: 'Ordu',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.85,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Osmaniye',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.59,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Rize',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.95,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Sakarya',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Samsun',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.82,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Siirt',
-              kg: 3, 
+              kg: 0, 
               b2c: 1,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Sinop',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.83,
               kdvoran: 18/100
           },                      
           {
               sehir: 'Sivas',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.78,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Şanlıurfa',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.43,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Şırnak',
-              kg: 3, 
+              kg: 0, 
               b2c: 1,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Tokat',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.78,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Trabzon',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.95,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Tunceli',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.91,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Uşak',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.77,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Van',
-              kg: 3, 
+              kg: 0, 
               b2c: 1.22,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Yalova',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.91,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Yozgat',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.78,
               kdvoran: 18/100
           }, 
           {
               sehir: 'Zonguldak',
-              kg: 3, 
+              kg: 0, 
               b2c: 0.81,
               kdvoran: 18/100
           }                  
@@ -817,9 +877,17 @@
   )
   </script>
   </div>
-  <div class="telif" style="display: grid; grid-template-columns: auto auto; place-items: center; font-size: 13px;">
-    <p>Harita Tasarım: <b>Doğukan Nomak</b></p>
-    <p>Geliştirenler: <b>Safa Gayret, İbrahim Aksakal</b></p>
+  <div>
+    <div class="telif">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">Harita Tasarım: <b>Doğukan Nomak</b></div>
+      <div class="col-lg-6" style="text-align: right;">Geliştirenler: <b>Safa Gayret, İbrahim Aksakal</b></div>
+    </div>
   </div>
+  </div>
+  </div>
+
+
   </body>
 </html>
