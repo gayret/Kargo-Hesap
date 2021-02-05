@@ -43,8 +43,11 @@
   }
 
   .telif {
-    font-size: 14px;
+    font-size: 13px;
     margin-top: 50px;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
   }
 
   .kapsayici {
@@ -74,6 +77,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-3">
+              <h4 style="text-align: center;">Kahramanmaraş'tan</h4>
               <ul>
                 <li style="list-style-type: none;">
                   <input placeholder="Hedef şehir seçiniz" list="brow" v-model="secilen">
@@ -82,8 +86,9 @@
                   </datalist>  
                 </li>
               </ul>
+              <h5 style="text-align: center;"><b>Horoz Lojistik</b> ile</h5>
               <div class="kilogram">
-                KG: <input type="number" v-model="kilogram">
+                KG: <input type="number" placeholder="Kilogram giriniz" v-model="kilogram">
               </div>
                 <div style="transition: all 3s;">
                   <ul>
