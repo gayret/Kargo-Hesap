@@ -90,7 +90,7 @@
               <div class="kilogram">
                 KG: <input type="number" placeholder="Kilogram giriniz" v-model="kilogram">
               </div>
-                <div style="transition: all 3s;">
+                <div style="transition: all .5s;">
                   <ul>
                     <li style="margin-left: -20px; display: grid;" v-for="kargohesap in kargohesap" v-if="kargohesap.sehir==secilen">
                       <span>Desi: <b>{{ kargohesap.b2c }}</b></span>
@@ -98,9 +98,12 @@
                       <span>Fiyat: <b style="background-color: #1094F6; color: #fff; padding: 5px 10px;">{{(kargohesap.b2c*kargohesap.kdvoran+kargohesap.b2c).toFixed(2)*kilogram}} ₺</b></span>
                     </li>
                   </ul>
+                  <a href="#" v-if="haritaAcik==true" @click="haritaAcik=false">Haritayı Kapat</a>
+                  <a href="#" v-if="haritaAcik==false" @click="haritaAcik=true">Haritayı aç</a>
                 </div>
+
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-9" v-if="haritaAcik==true">
               <!-- SVG Türkiye Haritası | MIT Lisans | dnomak.com -->     
         
     <div class="il-isimleri"></div>
@@ -390,6 +393,7 @@
         total: 0,
         secilen: "Adana",
         kilogram: '',
+        haritaAcik: true,
         kargohesap: [
         {
               sehir: 'Adana',
@@ -404,7 +408,7 @@
               kdvoran: 0.18
           },
           {
-              sehir: 'Afyon',
+              sehir: 'Afyonkarahisar',
               kg: 0, 
               b2c: 0.77,
               kdvoran: 18/100
@@ -625,13 +629,13 @@
               kdvoran: 18/100
           },                  
           {
-              sehir: 'İstanbul-Anadolu',
+              sehir: 'İstanbul (Asya)',
               kg: 0, 
               b2c: 0.74,
               kdvoran: 18/100
           },                  
           {
-              sehir: 'İstanbul-Avrupa',
+              sehir: 'İstanbul (Avrupa)',
               kg: 0, 
               b2c: 0.90,
               kdvoran: 18/100
