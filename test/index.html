@@ -31,7 +31,7 @@
     right: 20px;
 }
 
-  .kapsayici  .col-lg-3 {
+  .kapsayici  .soltaraf {
     background-color: #eee;
     padding: 10px;
     padding-top: 40px;
@@ -43,11 +43,8 @@
   }
 
   .telif {
-    font-size: 13px;
+    font-size: 11px;
     margin-top: 50px;
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
   }
 
   .kapsayici {
@@ -77,6 +74,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-3">
+              <div class="soltaraf">
               <h4 style="text-align: center;">Kahramanmaraş'tan</h4>
               <ul>
                 <li style="list-style-type: none;">
@@ -88,7 +86,7 @@
               </ul>
               <h5 style="text-align: center;"><b>Horoz Lojistik</b> ile</h5>
               <div class="kilogram">
-                KG: <input type="number" placeholder="Kilogram giriniz" v-model="kilogram">
+                <input type="number" placeholder="Kilogram giriniz" v-model="kilogram">
               </div>
                 <div style="transition: all .5s;">
                   <ul>
@@ -98,10 +96,10 @@
                       <span>Fiyat: <b style="background-color: #1094F6; color: #fff; padding: 5px 10px;">{{(kargohesap.b2c*kargohesap.kdvoran+kargohesap.b2c).toFixed(2)*kilogram}} ₺</b></span>
                     </li>
                   </ul>
-                  <a href="#" v-if="haritaAcik==true" @click="haritaAcik=false">Haritayı Kapat</a>
+                  <a href="#" v-if="haritaAcik==true" @click="haritaAcik=false">Haritayı kapat</a>
                   <a href="#" v-if="haritaAcik==false" @click="haritaAcik=true">Haritayı aç</a>
                 </div>
-
+              </div>
             </div>
             <div class="col-lg-9" v-if="haritaAcik==true">
               <!-- SVG Türkiye Haritası | MIT Lisans | dnomak.com -->     
@@ -374,7 +372,16 @@
         </g>
       </svg>
     </div>
+   
             </div>
+            <div class="telif">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6">Harita Tasarım: <b><a href="https://dnomak.com.tr/svg-turkiye-haritasi/">Doğukan Nomak</a></b></div>
+                  <div class="col-lg-6" style="text-align: right;">Geliştirenler: <b><a href="https://twitter.com/safa">Safa Gayret</a>, <a href="https://www.facebook.com/ibrahimaksakall">İbrahim Aksakal</a></br></div>
+                </div>
+              </div>
+              </div>
           </div>
         </div>
       </div>
@@ -887,14 +894,7 @@
   </script>
   </div>
   <div>
-    <div class="telif">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6">Harita Tasarım: <b><a href="https://dnomak.com.tr/svg-turkiye-haritasi/">Doğukan Nomak</a></b></div>
-      <div class="col-lg-6" style="text-align: right;">Geliştirenler: <b><a href="https://twitter.com/safa">Safa Gayret</a>, <a href="https://www.facebook.com/ibrahimaksakall">İbrahim Aksakal</a></b></div>
-    </div>
-  </div>
-  </div>
+    
   </div>
 
 
